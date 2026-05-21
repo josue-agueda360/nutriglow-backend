@@ -258,7 +258,7 @@ class AuthFlowController extends Controller
             ->when($recipeRange !== 'todos', function ($query) use ($recipeRange) {
                 $query->where('rango_receta', $recipeRange);
             })
-            ->orderByRaw("FIELD(COALESCE(rango_receta, 'bajo'), 'alto', 'medio', 'bajo')")
+            ->orderByRaw("CASE COALESCE(rango_receta, 'bajo') WHEN 'alto' THEN 1 WHEN 'medio' THEN 2 WHEN 'bajo' THEN 3 ELSE 4 END")
             ->orderBy('nombre')
             ->get();
 
